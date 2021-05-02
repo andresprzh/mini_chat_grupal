@@ -1,0 +1,116 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+    <main>
+        
+        <div class="chat container-fluid ">
+            <div class="row">
+                <div class="col-md-2 border-bottom d-none d-md-block card  bg-dark chat_boxes">
+                    <div class="card-header title_chat">Usuarios</div>
+                    <div class="persons_chat_box">
+                        {% if persons %}
+                            {% for person in persons %}
+                                <div class="card text-white bg-dark mb-3">
+                                    <div class="row g-0">
+                                        <div class="col-md-4 d-none d-lg-block">
+                                            <img src="{% static 'images/face.png' %}"  
+                                            class="img-fluid" >
+                                        </div>
+                                        <div class="col-lg-8">
+                                            <div class="card-body">
+                                                <h5 class="card-title">{{ person.username }}</h5>
+                                                <p class="card-text"><small >{{  person.last_joined }}</small></p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="col-md-10 border-bottom card bg-dark chat_boxes" id="app">
+                    <div class="card-header title_chat"> Chat </div>
+                    <div class="chat_box ">
+
+                        <div v-for="message in messages" :key="message.id">
+
+                            <div  class="row p-2" v-if="message.user.username!=username">
+                                <div class="card col-md-6 col-sm-10  text-white bg-secondary mb-3">
+                                    <div class="d-flex justify-content-end">
+                                        <span class="fs-4 fw-bold"><% message.user.username %></span>
+                                    </div>
+                                    <div class="card-body">
+                                        <p class="card-text text-start"><% message.message %></p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row p-2 justify-content-end" v-else>
+                                <div class="card col-md-6 col-sm-10  text-white bg-primary mb-3">
+                                    <div class="d-flex justify-content-between">
+                                        <a type="button" class="btn btn-primary"><i class="fas fa-times text-danger fs-5"></i></a>
+                                        <span class="fs-4 fw-bold"><% message.user.username %></span>
+                                    </div>
+                                    <div class="card-body">
+                                        <p class="card-text text-start"><% message.message %></p>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="card-body chat_message border">
+                        <div class="row">
+                            <div class="form-floating col-sm-11" style="height: 100%">
+                                <textarea class=" form-control" placeholder="..." id="floatingTextarea" ></textarea>
+                                <label for="floatingTextarea" class="text-dark">Mensaje</label>
+                            </div>
+                            
+                            <div class="col-sm-1">
+                                <button type="text" class="btn btn-primary rounded-circle" v-on:click="sendMessage" ><i class="fas fa-paper-plane"></i></button>
+                            </div>
+                          </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    
+    <style type="text/css">
+        .chat, .chat_boxes{
+            height: 80vh;
+        }
+        .chat_boxes{
+            padding: 0 !important;
+        }
+        .chat_boxes .row{
+            width: 100%;
+        }
+        .persons_chat_box{
+            height: 95%;
+            
+        }
+        .chat_box{
+            height: 95%;
+        }
+        .chat_message{
+            height: 10%;
+        }
+        .persons_chat_box, .chat_box{
+            overflow-y: scroll;
+        }
+        .title_chat{
+            height: 5%;
+            background-color: #1A3668;
+        }
+    </style>
+    
+    <!-- send infor to js -->
+    {{ request.user.username|json_script:'username' }}
+    
+    <script src="{% static 'js/index.js' %}">
+
+    </script>
+{% endblock content %}

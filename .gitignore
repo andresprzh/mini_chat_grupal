@@ -1,0 +1,3 @@
+create_db.sh
+env
+src/static_cdn/*
