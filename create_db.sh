@@ -2,7 +2,7 @@
 set -e
 DB_NAME=${1:-chat_db}
 DB_USER=${2:-django_chat}
-DB_USER_PASS=${3:-chatpas}
+DB_USER_PASS=${3:-chatpass}
 sudo su postgres <<EOF
 createdb  $DB_NAME;
 psql -c "CREATE USER $DB_USER WITH PASSWORD '$DB_USER_PASS';"
