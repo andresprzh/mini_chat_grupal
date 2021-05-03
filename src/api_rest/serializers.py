@@ -8,7 +8,18 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
         fields = ('id','username')
 
 class PublicChatMessagesSerializer(serializers.HyperlinkedModelSerializer):
-    user = UserSerializer(many=False,)
+    user = UserSerializer(many=False, read_only=True)   
+    # user = serializers.PrimaryKeyRelatedField(
+    #                  queryset=Account.objects.all())
     class Meta:
-        model = PublicChatMessages
-        fields = ('id','user', 'message')
+        model = PublicChatMessages  
+        fields = ('id', 'message','user')
+
+class PublicChatMessagesSerializer2(serializers.HyperlinkedModelSerializer):
+    
+    user = serializers.PrimaryKeyRelatedField(
+                     queryset=Account.objects.all())
+    class Meta:
+        model = PublicChatMessages  
+        fields = ('id', 'message', 'user')
+        

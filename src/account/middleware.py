@@ -13,7 +13,8 @@ class AuthRequiredMiddleware(object):
             'password_reset_done',
             'password_reset_confirm',
             'password_reset',
-            'password_reset_complete'
+            'password_reset_complete',
+            'messages_api',
         ]
         if hasattr(request.resolver_match, 'url_name'):
             if not request.user.is_authenticated and request.resolver_match.url_name not in no_login_pages:
